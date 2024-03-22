@@ -1,11 +1,26 @@
 {% extends 'base.html' %}
 
-{% block title %}Page title{% endblock %}
+{% block title %}Todo List{% endblock %}
 
 {% block content %}
 
 <div class="container">
-  <h1 class="heading">Heading</h1>
-  <p class="description">Loren Pisum.</p>
+  <h1 class="heading">TODO List</h1>
+  <p class="description">Please find the list of tasks below:</p>
+      <form action="/add" method="post">
+        <input type="text" name="title" required>
+        <input type="date" name="due_date">
+        <button type="submit">Add Task</button>
+    </form>
+    <ul>
+      {% for todo in todos %}
+      <li style="{{ 'color:red;' if todo.due_date and todo.due_date < current_time  else '' }}">
+        {{ todo.title }}
+            <a href="/update/{{ todo.id }}">
+                {{ 'Mark Incomplete' if todo.complete else 'Mark Complete' }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}
